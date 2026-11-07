@@ -2,250 +2,69 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#175bd7">
 <title>버스톡톡 | BUS TOKTOK</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f7fb;color:#182943;font-family:Arial,"Noto Sans KR",sans-serif}
-header{min-height:68px;background:white;border-bottom:1px solid #e5eaf2;display:flex;align-items:center;justify-content:space-between;padding:12px max(18px,calc((100% - 1100px)/2))}
-.brand{font-size:21px;font-weight:800;color:#17345e}
-.health{font-size:12px;padding:8px 12px;border-radius:20px;background:#fff0d4;color:#875b00}
-main{max-width:1100px;margin:28px auto;padding:0 18px}
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center;margin-bottom:25px}
-h1{font-size:36px;line-height:1.35;margin:0;color:#16345e}
-h1 span{color:#175bd7}
-.muted{color:#73829a;font-size:14px;line-height:1.7}
-.panel{background:white;border:1px solid #e6ebf3;border-radius:15px;padding:20px;box-shadow:0 8px 24px #1b3d6b0a}
-.tabs{display:flex;gap:16px;margin-bottom:15px}
-.tab{border:0;background:none;padding:8px 2px;color:#7c8ba2;font-weight:bold}
-.tab.active{color:#175bd7;border-bottom:2px solid #175bd7}
-.row{display:flex;gap:8px}
-.row input,.row select{min-width:0;height:46px;border:1px solid #dce4ef;border-radius:8px;padding:0 11px;font-size:14px}
-.row input{flex:1}
-.row select{max-width:160px}
-button{cursor:pointer}
-.primary{background:#175bd7;color:white;border:0;border-radius:8px;padding:0 18px;font-weight:bold}
-.content{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.results{min-height:230px;max-height:520px;overflow:auto}
-.item{padding:13px 4px;border-bottom:1px solid #edf0f5;cursor:pointer}
-.item b{display:block}
-.item small{color:#8290a5}
-.status{font-size:13px;color:#687b97;background:#f4f7fc;padding:10px;border-radius:8px;margin:12px 0;line-height:1.6}
-#map{height:430px;border-radius:10px}
-.empty{padding:45px 10px;text-align:center;color:#7c8ba2}
-.item button{margin-top:8px}
-.back{border:0;background:#eef4ff;color:#175bd7;border-radius:8px;padding:9px 12px;font-weight:bold;margin:10px 0}
-.vehicle-key{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#53647d;margin:8px 12px 0 0}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#175bd7}
-.bus-icon{font-size:24px;text-align:center;line-height:30px}
-footer{text-align:center;color:#8b98aa;font-size:11px;padding:28px}
-@media(max-width:760px){
- .hero,.content{grid-template-columns:1fr}
- h1{font-size:30px}
- #map{height:340px}
- .row{flex-wrap:wrap}
- .row select{max-width:none;width:100%}
- .row input{width:calc(100% - 85px);flex:none}
- .primary{height:46px;flex:1}
-}
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#182943;font-family:Arial,"Noto Sans KR",sans-serif}
+header{background:#fff;padding:15px 18px;border-bottom:1px solid #e5eaf2;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:500}
+.brand{font-size:21px;font-weight:800;color:#17345e}.health{font-size:12px;padding:8px 12px;border-radius:20px;background:#fff0d4;color:#875b00}
+main{max-width:1100px;margin:18px auto;padding:0 14px}.hero{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+h1{font-size:27px;margin:0 0 8px}h1 span{color:#175bd7}.muted{color:#73829a;font-size:13px;line-height:1.6}
+.panel{background:#fff;border:1px solid #e6ebf3;border-radius:15px;padding:16px;margin-bottom:15px;box-shadow:0 4px 16px #1b3d6b0a}
+.tabs{display:flex;gap:8px;margin-bottom:12px}.tab{border:0;background:#eef3fa;padding:10px 14px;border-radius:9px;color:#53647d;font-weight:bold}.tab.active{background:#175bd7;color:#fff}
+.row{display:flex;gap:8px;margin:8px 0}.row input,.row select{min-width:0;height:44px;border:1px solid #dce4ef;border-radius:8px;padding:0 11px;font-size:14px;background:#fff}.row input{flex:1}.row select{max-width:160px}
+button{cursor:pointer}.primary{background:#175bd7;color:#fff;border:0;border-radius:8px;padding:0 18px;font-weight:bold;min-height:44px}.secondary{background:#eef3fa;color:#29415f;border:0;border-radius:8px;padding:10px 13px;font-weight:bold}
+.content{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}.results{min-height:200px;max-height:520px;overflow:auto}.item{padding:13px 5px;border-bottom:1px solid #edf0f5;cursor:pointer}.item b{display:block;font-size:16px}.item small{display:block;color:#8290a5;margin-top:5px;line-height:1.5}.item:active{background:#f4f7fc}
+#map{height:520px;border-radius:12px;z-index:1}.maptools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.status{font-size:13px;color:#64748b;margin:8px 0}.pill{display:inline-block;background:#eef3fa;padding:4px 8px;border-radius:7px;font-size:12px;margin-right:5px}
+.vehicle-icon{font-size:25px;line-height:30px;text-align:center;text-shadow:0 1px 2px white,1px 0 2px white,-1px 0 2px white}
+footer{text-align:center;color:#8b98aa;font-size:11px;padding:24px}
+@media(max-width:760px){.hero,.content{grid-template-columns:1fr}h1{font-size:24px}#map{height:390px}.row select{max-width:125px}}
 </style>
 </head>
 <body>
-<header>
- <div class="brand">🚌 버스톡톡 <small style="font-size:9px;letter-spacing:1px;color:#8190a6">BUS TOKTOK</small></div>
- <span id="health" class="health">서버 확인 중</span>
-</header>
+<header><div class="brand">🚌 버스톡톡 <small style="font-size:10px;color:#8190a6">BUS TOKTOK</small></div><span id="health" class="health">서버 확인 중</span></header>
 <main>
- <section class="hero">
-  <div>
-   <p style="color:#8a9ab0;font-size:11px;font-weight:bold;letter-spacing:2px">KOREA BUS INFORMATION</p>
-   <h1>버스가 궁금할 땐,<br><span>버스톡톡</span></h1>
-   <p class="muted">전국 버스 노선과 정류장 정보를 검색하고<br>정류장별 도착정보와 차량 위치를 확인하세요.</p>
-  </div>
-  <div class="panel">
-   <div class="tabs">
-    <button class="tab active" data-type="route">노선 검색</button>
-    <button class="tab" data-type="station">정류장 검색</button>
-   </div>
-   <div class="row">
-    <select id="city"><option value="">전국</option></select>
-    <input id="q" placeholder="버스 번호 또는 노선명">
-    <button id="search" class="primary">검색</button>
-   </div>
-   <p class="muted" style="font-size:11px;margin-bottom:0">전국 검색은 지역별 공공데이터 제공 범위에 따라 결과가 다를 수 있습니다.</p>
-  </div>
- </section>
- <section class="content">
-  <div class="panel">
-   <b id="resultTitle">검색 결과</b>
-   <div id="status" class="status">검색어를 입력해 주세요.</div>
-   <div id="results" class="results"><div class="empty">🚌<br>버스 정보를 검색해 보세요.</div></div>
-  </div>
-  <div class="panel">
-   <b id="mapTitle">정류장 및 차량 지도</b>
-   <p class="muted" style="font-size:11px">노선을 선택하면 정류장과 운행 중인 버스가 지도에 표시됩니다.</p>
-   <div id="map"></div>
-   <div>
-    <span class="vehicle-key"><i class="dot"></i> 정류장</span>
-    <span class="vehicle-key">🚌 차량 위치</span>
-   </div>
-   <button id="nearby" class="primary" style="height:40px;margin-top:12px">내 주변 정류장 찾기</button>
-  </div>
- </section>
+<section class="hero">
+<div><p class="muted" style="font-weight:bold;letter-spacing:2px">KOREA BUS INFORMATION</p><h1>버스가 궁금할 땐,<br><span>버스톡톡</span></h1><p class="muted">전국 버스 노선과 정류장을 검색하고, 노선별 정류장과 실시간 차량 위치를 지도에서 확인하세요.</p></div>
+<div class="panel">
+<div class="tabs"><button class="tab active" data-type="route">노선 검색</button><button class="tab" data-type="station">정류장 검색</button></div>
+<div class="row"><select id="city"><option value="">전국</option></select><input id="q" placeholder="버스 번호 또는 노선명" autocomplete="off"><button id="search" class="primary">검색</button></div>
+<div class="muted">검색 결과는 지역별 공공데이터 제공 범위에 따라 다를 수 있습니다.</div>
+</div>
+</section>
+<section class="content">
+<div class="panel"><b id="resultTitle">검색 결과</b><div id="status" class="status">노선 번호를 검색해 보세요.</div><div id="results" class="results"></div></div>
+<div class="panel"><div class="maptools"><b style="margin:auto auto auto 0">지도</b><button id="refresh" class="secondary">차량 위치 새로고침</button><button id="nearby" class="secondary">내 주변 정류장</button></div><div id="map"></div><div id="mapStatus" class="status">노선을 선택하면 정류장과 버스 위치가 지도에 표시됩니다.</div></div>
+</section>
+<section class="panel" id="detail" style="display:none"><b id="detailTitle">상세 정보</b><div id="detailBody" class="status"></div></section>
+<footer>버스톡톡 · 공공데이터포털 TAGO API 연동</footer>
 </main>
-<footer>버스톡톡 · 공공데이터포털 TAGO 연동 · 실제 제공 범위는 지역별로 다를 수 있습니다.</footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let type="route",map,markers=[],refreshTimer=null,currentRoute=null,vehicleMarkers=[];
 const $=id=>document.getElementById(id);
-map=L.map("map").setView([36.5,127.8],7);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
-function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
-function clearVehicleMarkers(){vehicleMarkers.forEach(m=>map.removeLayer(m));vehicleMarkers=[]}
-function stopRefresh(){if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}currentRoute=null}
-function setStatus(t){$("status").textContent=t}
-async function api(url){const r=await fetch(url);const d=await r.json();if(!r.ok)throw new Error(d.error||"요청 실패");return d}
-async function health(){
- try{
-  const d=await api("/api/health");
-  $("health").textContent=d.keyConfigured?"API 연결 준비됨":"인증키 설정 필요";
-  $("health").style.background=d.keyConfigured?"#e2f8eb":"#fff0d4";
-  $("health").style.color=d.keyConfigured?"#168044":"#875b00";
- }catch(e){$("health").textContent="서버 오류"}
-}
-async function loadCities(){
- try{
-  const d=await api("/api/cities");
-  d.items.forEach(c=>{let o=document.createElement("option");o.value=c.cityCode;o.textContent=c.cityName;$("city").appendChild(o)});
- }catch(e){setStatus(e.message)}
-}
-function val(x,names){for(const n of names)if(x[n]!==undefined&&x[n]!==null&&x[n]!=="")return x[n];return ""}
-function coords(x){
- const lat=Number(val(x,["gpslati","gpsLati","GPS_LATI","gpsLat","latitude","lat"]));
- const lng=Number(val(x,["gpslong","gpsLong","GPS_LONG","gpsLng","longitude","lng","lon"]));
- return Number.isFinite(lat)&&Number.isFinite(lng)&&lat!==0&&lng!==0&&Math.abs(lat)<=90&&Math.abs(lng)<=180?[lat,lng]:null;
-}
-function showSearchResults(items){
- $("results").innerHTML="";clearMarkers();clearVehicleMarkers();stopRefresh();
- if(!items.length){$("results").innerHTML='<div class="empty">검색 결과가 없습니다.</div>';return}
- items.forEach(x=>{
-  const name=type==="route"?val(x,["routeNo"]):val(x,["nodeName"]);
-  const sub=type==="route"?[val(x,["startNode"]),val(x,["endNode"])].filter(Boolean).join(" → "):"정류장 번호 "+val(x,["nodeNo"]);
-  const el=document.createElement("div");el.className="item";
-  const b=document.createElement("b");b.textContent=type==="route"?(name+"번 노선"):name;
-  const sm=document.createElement("small");sm.textContent=sub||"상세 정보";
-  el.append(b,sm);el.onclick=()=>detail(x);$("results").appendChild(el);
-  if(type==="station"){
-   const p=coords(x);
-   if(p){const m=L.marker(p).addTo(map).bindPopup(String(name));markers.push(m)}
-  }
- });
- if(markers.length)map.fitBounds(L.featureGroup(markers).getBounds().pad(.2));
-}
-async function search(){
- stopRefresh();const q=$("q").value.trim();
- if(!q){setStatus("검색어를 입력해 주세요.");return}
- setStatus("공공데이터 검색 중…");$("results").innerHTML="";
- try{
-  const d=await api(`/api/search?type=${type}&q=${encodeURIComponent(q)}&cityCode=${encodeURIComponent($("city").value)}`);
-  setStatus(`${d.count}건 검색됨`);showSearchResults(d.items);
- }catch(e){setStatus(e.message)}
-}
-function stopName(s){return String(val(s,["nodenm","nodeNm","NODE_NM","nodeName","stationName"])||"정류장")}
-function addStopMarkers(stops){
- stops.forEach((s,i)=>{
-  const p=coords(s);if(!p)return;
-  const m=L.circleMarker(p,{radius:5,color:"#175bd7",fillColor:"#fff",fillOpacity:1,weight:2})
-   .addTo(map).bindPopup(`${i+1}. ${stopName(s)}`);
-  markers.push(m);
- });
-}
-function addBusMarkers(buses){
- clearVehicleMarkers();let found=0;
- buses.forEach((b,i)=>{
-  const p=coords(b);if(!p)return;
-  found++;
-  const busNo=val(b,["vehicleno","vehicleNo","VEHICLENO","plainNo","plateno","plateNo","carNo"]);
-  const next=val(b,["nodenm","nodeNm","nodeName","stationName"]);
-  const icon=L.divIcon({className:"",html:'<div class="bus-icon">🚌</div>',iconSize:[32,32],iconAnchor:[16,16]});
-  const m=L.marker(p,{icon}).addTo(map).bindPopup(`<b>운행 차량 ${found}</b>${busNo?`<br>차량: ${busNo}`:""}${next?`<br>위치: ${next}`:""}`);
-  vehicleMarkers.push(m);
- });
- return found;
-}
-async function refreshVehicles(route){
- if(!currentRoute||currentRoute.routeId!==route.routeId||currentRoute.cityCode!==route.cityCode)return;
- try{
-  const d=await api(`/api/route/${encodeURIComponent(route.cityCode)}/${encodeURIComponent(route.routeId)}/locations`);
-  const count=addBusMarkers(d.items||[]);
-  const time=new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  if(count>0)setStatus(`실시간 차량 ${count}대 표시 중 · 마지막 갱신 ${time} · 15초마다 자동 갱신`);
-  else setStatus(`차량 위치 데이터가 현재 없습니다. · 마지막 확인 ${time} · 15초마다 재확인`);
- }catch(e){setStatus("차량 위치 조회 실패: "+e.message)}
-}
-async function detail(x){
- if(type==="route"){
-  stopRefresh();clearMarkers();clearVehicleMarkers();
-  currentRoute={cityCode:x.cityCode,routeId:x.routeId};
-  $("mapTitle").textContent=`${val(x,["routeNo"])}번 노선 차량 위치`;
-  setStatus("정류장 및 실시간 차량 위치를 불러오는 중…");
-  $("results").innerHTML='<div class="empty">노선 정보를 불러오는 중…</div>';
-  try{
-   const [sd,vd]=await Promise.all([
-    api(`/api/route/${encodeURIComponent(x.cityCode)}/${encodeURIComponent(x.routeId)}/stops`),
-    api(`/api/route/${encodeURIComponent(x.cityCode)}/${encodeURIComponent(x.routeId)}/locations`)
-   ]);
-   const stops=sd.items||[],buses=vd.items||[];
-   $("results").innerHTML="";
-   const back=document.createElement("button");back.className="back";back.textContent="← 검색 결과로";back.onclick=search;$("results").appendChild(back);
-   const heading=document.createElement("div");heading.className="status";heading.textContent=`${val(x,["routeNo"])}번 노선 · 정류장 ${stops.length}곳 · 차량 데이터 ${buses.length}건`;$("results").appendChild(heading);
-   stops.forEach((s,i)=>{
-    const el=document.createElement("div");el.className="item";
-    const b=document.createElement("b");b.textContent=`${i+1}. ${stopName(s)}`;
-    const sm=document.createElement("small");sm.textContent=val(s,["nodeNo","nodeno","nodeId"])?"정류장 번호 "+val(s,["nodeNo","nodeno","nodeId"]):"경유 정류장";
-    el.append(b,sm);$("results").appendChild(el);
-   });
-   addStopMarkers(stops);
-   const count=addBusMarkers(buses);
-   const all=[...markers,...vehicleMarkers];
-   if(all.length)map.fitBounds(L.featureGroup(all).getBounds().pad(.15));
-   const now=new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-   setStatus(count?`실시간 차량 ${count}대 표시 중 · ${now} · 15초마다 자동 갱신`:`정류장 ${stops.length}곳 표시됨 · 현재 차량 위치 데이터가 없습니다. 15초마다 재확인합니다.`);
-   refreshTimer=setInterval(()=>refreshVehicles(x),15000);
-  }catch(e){setStatus("노선 상세 조회 실패: "+e.message);$("results").innerHTML='<div class="empty">정보를 불러오지 못했습니다.</div>'}
- }else{
-  stopRefresh();setStatus("도착정보를 불러오는 중…");
-  try{
-   const d=await api(`/api/station/${encodeURIComponent(x.cityCode)}/${encodeURIComponent(x.nodeId)}/arrivals`);
-   if(!d.items.length){$("results").innerHTML='<div class="empty">현재 도착정보가 없습니다.</div>'}
-   else{$("results").innerHTML="";d.items.forEach(a=>{const el=document.createElement("div");el.className="item";el.textContent=`${val(a,["routeno","routeNo"])}번 · ${val(a,["arrtime","arrTime"])}초 후 도착`;$("results").appendChild(el)})}
-   setStatus("도착정보 조회 완료");
-  }catch(e){setStatus(e.message)}
- }
-}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
- stopRefresh();type=b.dataset.type;
- document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t===b));
- $("q").placeholder=type==="route"?"버스 번호 또는 노선명":"정류장 이름";
- $("resultTitle").textContent=type==="route"?"노선 검색 결과":"정류장 검색 결과";
-});
-$("search").onclick=search;
-$("q").onkeydown=e=>{if(e.key==="Enter")search()};
-$("nearby").onclick=()=>{
- stopRefresh();
- if(!navigator.geolocation){setStatus("위치 기능을 사용할 수 없습니다.");return}
- setStatus("현재 위치 확인 중…");
- navigator.geolocation.getCurrentPosition(async p=>{
-  try{
-   const d=await api(`/api/nearby?lat=${p.coords.latitude}&lng=${p.coords.longitude}&radius=700`);
-   type="station";showSearchResults(d.items);setStatus(`주변 정류장 ${d.items.length}곳`);
-   if(d.items.length){const first=coords(d.items[0]);if(first)map.setView(first,15)}
-  }catch(e){setStatus(e.message)}
- },()=>setStatus("위치 권한을 허용하고 HTTPS 주소에서 다시 시도해 주세요."),{enableHighAccuracy:true,timeout:12000});
-};
-health();loadCities();
+let searchType='route', selectedRoute=null, vehicleLayer=L.layerGroup(), stopLayer=L.layerGroup(), stationLayer=L.layerGroup(), map, refreshTimer=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function arr(data){if(Array.isArray(data))return data;for(const k of ['items','item','list','data','response']){if(Array.isArray(data?.[k]))return data[k];if(Array.isArray(data?.[k]?.items))return data[k].items;}return []}
+function first(o,keys){for(const k of keys){if(o?.[k]!==undefined&&o[k]!==null&&o[k]!=='')return o[k]}return ''}
+function coords(o){const lat=Number(first(o,['gpslati','gpsLat','gpslat','latitude','lat','gpsY']));const lng=Number(first(o,['gpslong','gpsLon','gpslon','longitude','lng','lon','gpsX']));return Number.isFinite(lat)&&Number.isFinite(lng)&&lat>0&&lng>0?[lat,lng]:null}
+function setStatus(t){$('status').textContent=t}
+function showDetail(title,html){$('detail').style.display='block';$('detailTitle').textContent=title;$('detailBody').innerHTML=html}
+map=L.map('map').setView([36.35,127.8],7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+stopLayer.addTo(map);vehicleLayer.addTo(map);stationLayer.addTo(map);
+async function api(path){const r=await fetch(path);const txt=await r.text();let j;try{j=JSON.parse(txt)}catch{throw new Error('서버 응답을 읽을 수 없습니다.')}if(!r.ok||j.error)throw new Error(j.error||`서버 오류 (${r.status})`);return j}
+async function init(){try{const h=await api('/api/health');$('health').textContent=h.keyConfigured?'서버 연결됨 · API 인증 확인':'서버 연결됨 · API 키 확인 필요';$('health').style.background=h.keyConfigured?'#e7f7ed':'#fff0d4';$('health').style.color=h.keyConfigured?'#237344':'#875b00';const c=arr(await api('/api/cities'));c.forEach(x=>{const code=first(x,['cityCode','citycode','city_code','citycd']);const name=first(x,['cityName','cityname','city_name','name']);if(code&&name){const op=document.createElement('option');op.value=code;op.textContent=name;$('city').append(op)}})}catch(e){$('health').textContent='서버 확인 필요';$('health').title=e.message}}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');searchType=b.dataset.type;$('q').placeholder=searchType==='route'?'버스 번호 또는 노선명':'정류장 이름';$('resultTitle').textContent=searchType==='route'?'노선 검색 결과':'정류장 검색 결과'});
+$('search').onclick=search;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+async function search(){const q=$('q').value.trim();if(!q){setStatus('검색어를 입력해 주세요.');return} $('results').innerHTML='';setStatus('검색 중…');try{const data=await api(`/api/search?type=${searchType}&q=${encodeURIComponent(q)}${$('city').value?'&cityCode='+encodeURIComponent($('city').value):''}`);const items=arr(data);if(!items.length){setStatus('검색 결과가 없습니다.');return}setStatus(`${items.length}건 검색됨 · 항목을 누르면 상세 정보를 표시합니다.`);items.forEach(x=>{const name=searchType==='route'?first(x,['routeNo','routenm','routeName','routeno','name']):first(x,['nodeNm','nodenm','nodeName','stationName','name']);const sub=searchType==='route'?`노선 ID: ${first(x,['routeId','routeid'])} · ${first(x,['routeTp','routetp','routeType'])}`:`정류장 ID: ${first(x,['nodeId','nodeid'])}`;const div=document.createElement('div');div.className='item';div.innerHTML=`<b>${esc(name||'이름 없음')}</b><small>${esc(sub)}</small>`;div.onclick=()=>searchType==='route'?selectRoute(x):selectStation(x);$('results').append(div)})}catch(e){setStatus('검색 실패: '+e.message)}}
+function clearLayers(){stopLayer.clearLayers();vehicleLayer.clearLayers();stationLayer.clearLayers()}
+async function selectRoute(x){const city=first(x,['cityCode','citycode','city_code'])||$('city').value;const id=first(x,['routeId','routeid','route_id']);const name=first(x,['routeNo','routenm','routeName','routeno','name'])||id;if(!city||!id){setStatus('검색 결과에 지역 코드 또는 노선 ID가 없습니다.');return}selectedRoute={city,id,name};clearLayers();$('mapStatus').textContent=`${name} 노선 정보를 불러오는 중…`;try{const [stopsData,locData]=await Promise.all([api(`/api/route/${encodeURIComponent(city)}/${encodeURIComponent(id)}/stops`),api(`/api/route/${encodeURIComponent(city)}/${encodeURIComponent(id)}/locations`)]);const stops=arr(stopsData),vehicles=arr(locData);let pts=[];stops.forEach((s,i)=>{const p=coords(s);if(!p)return;pts.push(p);const nm=first(s,['nodeNm','nodenm','nodeName','stationName'])||`정류장 ${i+1}`;const ord=first(s,['nodeOrd','nodeord','order']);L.circleMarker(p,{radius:6,color:'#175bd7',weight:2,fillColor:'#fff',fillOpacity:1}).bindPopup(`<b>${esc(nm)}</b><br>${ord?`순번 ${esc(ord)}`:''}`).addTo(stopLayer)});let vehicleCount=0;vehicles.forEach(v=>{const p=coords(v);if(!p)return;vehicleCount++;const no=first(v,['vehicleno','vehicleNo','vehicle_no','carNo'])||'운행 차량';const icon=L.divIcon({className:'vehicle-icon',html:'🚌',iconSize:[32,32],iconAnchor:[16,16]});L.marker(p,{icon}).bindPopup(`<b>🚌 ${esc(no)}</b><br>${esc(name)}번 운행 차량`).addTo(vehicleLayer);pts.push(p)});if(pts.length)map.fitBounds(pts,{padding:[25,25],maxZoom:15});else map.setView([36.35,127.8],7);$('mapStatus').textContent=`${name}번 · 정류장 ${stops.length}개 · 지도에 표시된 버스 ${vehicleCount}대 · 15초마다 위치 갱신`;showDetail(`${name}번 노선`, `<span class="pill">정류장 ${stops.length}개</span><span class="pill">차량 ${vehicleCount}대</span><p>차량 위치는 TAGO에서 제공하는 GPS 좌표가 있는 차량만 표시됩니다.</p>`);if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(refreshVehicles,15000)}catch(e){$('mapStatus').textContent='노선 상세 조회 실패: '+e.message}}
+async function refreshVehicles(){if(!selectedRoute)return;try{const data=await api(`/api/route/${encodeURIComponent(selectedRoute.city)}/${encodeURIComponent(selectedRoute.id)}/locations`);vehicleLayer.clearLayers();let count=0;arr(data).forEach(v=>{const p=coords(v);if(!p)return;count++;const no=first(v,['vehicleno','vehicleNo','vehicle_no','carNo'])||'운행 차량';L.marker(p,{icon:L.divIcon({className:'vehicle-icon',html:'🚌',iconSize:[32,32],iconAnchor:[16,16]})}).bindPopup(`<b>🚌 ${esc(no)}</b><br>${esc(selectedRoute.name)}번 운행 차량`).addTo(vehicleLayer)});$('mapStatus').textContent=`${selectedRoute.name}번 · 차량 ${count}대 · 방금 갱신됨`}catch(e){$('mapStatus').textContent='차량 위치 갱신 실패: '+e.message}}
+$('refresh').onclick=refreshVehicles;
+async function selectStation(x){const city=first(x,['cityCode','citycode','city_code'])||$('city').value;const id=first(x,['nodeId','nodeid','node_id']);const name=first(x,['nodeNm','nodenm','nodeName','stationName','name'])||'정류장';if(!city||!id){setStatus('정류장 지역 코드 또는 ID가 없습니다.');return}try{const data=await api(`/api/station/${encodeURIComponent(city)}/${encodeURIComponent(id)}/arrivals`);const items=arr(data);showDetail(name,items.length?items.map(a=>`<p><b>${esc(first(a,['routeNo','routenm','routeName']))}</b> · ${esc(first(a,['arrtime','arrTime','predictTime','arriveTime'])||'도착 정보 확인') }</p>`).join(''):'도착 정보가 없습니다.');$('mapStatus').textContent=`${name} 도착 정보 ${items.length}건`}catch(e){showDetail(name,'도착 정보 조회 실패: '+esc(e.message))}}
+$('nearby').onclick=()=>{if(!navigator.geolocation){$('mapStatus').textContent='이 브라우저는 위치 기능을 지원하지 않습니다.';return}$('mapStatus').textContent='현재 위치를 확인 중…';navigator.geolocation.getCurrentPosition(async pos=>{const {latitude:lat,longitude:lng}=pos.coords;map.setView([lat,lng],15);L.marker([lat,lng]).bindPopup('내 위치').addTo(stationLayer).openPopup();try{const data=await api(`/api/nearby?lat=${lat}&lng=${lng}&radius=700`);const items=arr(data);items.forEach(s=>{const p=coords(s);if(!p)return;L.marker(p).bindPopup(esc(first(s,['nodeNm','nodenm','nodeName'])||'정류장')).addTo(stationLayer)});$('mapStatus').textContent=`내 주변 정류장 ${items.length}개`}catch(e){$('mapStatus').textContent='주변 정류장 조회 실패: '+e.message}},e=>{$('mapStatus').textContent='위치 권한을 허용해 주세요.'},{enableHighAccuracy:true,timeout:10000})};
+init();
 </script>
-</body>
-</html>
+</body></html>
